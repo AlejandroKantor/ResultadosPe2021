@@ -62,7 +62,7 @@ elecciones2021 = Elecciones(df_elecciones2021,
                             election_date="2021-04-11")
 def get_about():
 
-    texto = ["Cree Resultados.pe para mostrar, de manera resumida, los resultados de las encuestas de elecciones presidenciales del Perú.",
+    texto = ["Resultados.pe es un proyecto de Alejandro Kantor que muestra, de manera resumida, los resultados de las encuestas de elecciones presidenciales del Perú.",
 "He sido investigador del Institue for Quantitative Social Science de Harvard University. Cuento con grados académicos en matemáticas, economía, estadística y pronto en ciencias de la computación.",
              "Visiten mi twitter [@AlejandroKantor](https://twitter.com/AlejandroKantor)."]
     return texto
@@ -76,7 +76,7 @@ app_mode = st.sidebar.radio("Navegador", ["Elecciones presidenciales", "Acerca d
 
 st.sidebar.info(
         """
-        Este proyecto es mantenido por Alejandro Kantor. Visiten mi twitter  
+        Este proyecto es mantenido por Alejandro Kantor. Visiten mi twitter
         [@AlejandroKantor](https://twitter.com/AlejandroKantor).
 """
     )
