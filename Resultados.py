@@ -63,7 +63,7 @@ elecciones2021 = Elecciones(df_elecciones2021,
 def get_about():
 
     texto = ["Resultados.pe es un proyecto que muestra, de manera resumida, los resultados de las encuestas de elecciones presidenciales del Perú.",
-"He sido investigador del Institue for Quantitative Social Science de Harvard University. Cuento con grados académicos en matemáticas, economía, estadística y pronto en ciencias de la computación.",
+"He sido investigador del Institute for Quantitative Social Science de Harvard University. Cuento con grados académicos en matemáticas, economía, estadística y pronto en ciencias de la computación.",
              "Visiten mi twitter [@AlejandroKantor](https://twitter.com/AlejandroKantor)."]
     return texto
 
