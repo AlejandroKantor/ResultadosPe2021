@@ -97,19 +97,14 @@ class Elecciones:
         df_data["election_date"] = pd.to_datetime(self.election_date)
         self.df_consolidated = df_data
 
-    def prop_agg_alt_plot(self, domain = ("2015-12-01", "2016-04-15")):
-        with request.urlopen('https://raw.githubusercontent.com/d3/d3-time-format/master/locale/es-ES.json') as f:
-            es_time_format = json.load(f)
-        alt.renderers.set_embed_options(timeFormatLocale=es_time_format)
-
+    def get_sorted_color(self):
         df_color = self.df_color
         df_order = self.df_consolidated.copy()
         max_date = df_order["fecha"].max()
 
-
-        df_order = df_order[df_order["fecha"]==max_date]
-        df_order = df_order.groupby("variable").agg(prop = ("prop", "mean"),
-                                                     expected = ("expected", "mean"))
+        df_order = df_order[df_order["fecha"] == max_date]
+        df_order = df_order.groupby("variable").agg(prop=("prop", "mean"),
+                                                    expected=("expected", "mean"))
         df_order = df_order.reset_index()
         df_order["candidato"] = df_order["variable"]
         cols = ["candidato", "prop", "expected"]
@@ -117,6 +112,71 @@ class Elecciones:
         sort_var = "prop" if df_color["expected"].isna().all() else "expected"
 
         df_color = df_color.sort_values(sort_var, ascending=False)
+        return df_color
+
+
+    def prop_agg_alt_plot_all(self, domain=None, checked_candaidates=None,
+                              move_legend=False):
+        df_color = self.get_sorted_color()
+
+        source = self.df_consolidated[['Candidato/a','expected','fecha', 'prop']]
+        source['Candidato/a'] = source['Candidato/a'].str.replace("\\.", "")
+        source['expected'] = source['expected'].round(1)
+
+        if checked_candaidates is not None:
+            df_color = df_color[df_color.candidato_label.isin(checked_candaidates)]
+            source = source[source["Candidato/a"].isin(checked_candaidates)]
+        color = alt.Color('Candidato/a:N',
+                          scale=alt.Scale(domain=list(df_color.candidato_label),
+                                          range=list(df_color.color)))
+
+        base = alt.Chart(source).encode(x= alt.X("fecha:T", title="",
+                axis=alt.Axis(format='%d-%m-%y'),
+                scale=alt.Scale(domain=domain)
+                ),
+        ).properties(
+            height=400
+        )
+        columns = df_color["candidato_label"]
+        selection = alt.selection_single(
+            fields=['fecha'], nearest=True, on='mouseover', empty='none', clear='mouseout'
+        )
+
+        lines = base.mark_line().encode(y='expected:Q', color=color)
+        polsters = base.mark_circle(opacity=0.7).encode(
+            y=alt.Y('prop', title='Intención de voto (%)'),
+            color=color
+        )
+
+        points = lines.mark_point().transform_filter(selection)
+
+        rule = base.transform_pivot(
+            'Candidato/a', value='expected', groupby=['fecha'], op='mean'
+        ).mark_rule().encode(
+            opacity=alt.condition(selection, alt.value(0.3), alt.value(0)),
+            tooltip=  [alt.Tooltip('fecha', format='%d-%m-%Y')]  + [alt.Tooltip(c, type='quantitative') for c in columns]
+        ).add_selection(selection)
+        candidate_label = alt.Chart(source).encode(x='fecha:T')
+        plot = lines + points + polsters + rule
+        if move_legend:
+            plot = plot.configure_legend(
+                #strokeColor='gray',
+                fillColor='#FFFFFF',
+                padding=10,
+                #cornerRadius=10,
+                orient='top-right'
+            )
+        alt.themes.enable("latimes")
+        plot = plot.configure_axis(
+            grid=False
+        )
+        return plot
+
+
+
+    def prop_agg_alt_plot(self, domain = ("2015-12-01", "2016-04-15")):
+
+        df_color = self.get_sorted_color()
 
         selection = alt.selection_multi(fields=['Candidato/a'],
                                         bind='legend'

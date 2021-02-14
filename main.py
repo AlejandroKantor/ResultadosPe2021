@@ -62,7 +62,7 @@ elecciones2021 = Elecciones(df_elecciones2021,
                             election_date="2021-04-11")
 def get_about():
 
-    texto = ["Resultados.pe es un proyecto de Alejandro Kantor que muestra, de manera resumida, los resultados de las encuestas de elecciones presidenciales del Perú.",
+    texto = ["Resultados.pe es un proyecto que muestra, de manera resumida, los resultados de las encuestas de elecciones presidenciales del Perú.",
 "He sido investigador del Institue for Quantitative Social Science de Harvard University. Cuento con grados académicos en matemáticas, economía, estadística y pronto en ciencias de la computación.",
              "Visiten mi twitter [@AlejandroKantor](https://twitter.com/AlejandroKantor)."]
     return texto
@@ -89,21 +89,40 @@ if app_mode == "Acerca de":
 
 elif app_mode == "Elecciones presidenciales":
 
+    #a_2016 = elecciones2016.prop_agg_alt_plot( domain = ("2015-12-01", "2016-04-15"))
+    #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
-    #-------------------------------------------------------------------------------------------
-    a_2016 = elecciones2016.prop_agg_alt_plot( domain = ("2015-12-01", "2016-04-15"))
-    a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"))
-    with request.urlopen('https://raw.githubusercontent.com/d3/d3-time-format/master/locale/es-ES.json') as f:
-        es_time_format = json.load(f)
-    alt.renderers.set_embed_options(timeFormatLocale=es_time_format)
 
     st.markdown("## Primera vuelta elecciones 2021")
+    col1, col2 = st.beta_columns((1,4))
 
+    cand_2021_label = elecciones2021.get_sorted_color()["candidato_label"]
+    with col1:
+        checked_2021 = []
+        count = 0
+        for cand in cand_2021_label:
+            count += 1
+            checked_2021.append(st.checkbox(cand, count<8, cand+"2021"))
+    checked_2021 = cand_2021_label[checked_2021]
 
-    st.altair_chart(a_2021, use_container_width=True)
+    col2.altair_chart(elecciones2021.prop_agg_alt_plot_all( domain = ("2020-12-01", "2021-04-15"),
+                                                            checked_candaidates = checked_2021,
+                                                            move_legend=True), use_container_width=True)
 
     st.markdown("## Primera vuelta elecciones 2016")
-    st.altair_chart(a_2016, use_container_width=True,)
+    col1b, col2b = st.beta_columns((1,4))
+
+    cand_2016_label = elecciones2016.get_sorted_color()["candidato_label"]
+    with col1b:
+        checked_2016 = []
+        for cand in cand_2016_label:
+            checked_2016.append(st.checkbox(cand, True))
+    checked_2016 = cand_2016_label[checked_2016]
+
+    col2b.altair_chart(elecciones2016.prop_agg_alt_plot_all( domain = ("2015-12-01", "2016-04-15"),
+                                                            checked_candaidates = checked_2016), use_container_width=True)
+
+    #st.altair_chart(a_2016, use_container_width=True)
 
     # fetch & enable a German format & timeFormat locales.
 
