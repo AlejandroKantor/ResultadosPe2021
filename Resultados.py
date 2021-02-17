@@ -29,7 +29,7 @@ df_elecciones2021 = pd.read_csv("input/encuestasPrimeraVuelta2021.csv")
 
 df_elecciones2021 = prep_data_2016(df_elecciones2021, candidatos= ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
-                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto"])
+                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga"])
 
 
 df_color = pd.read_csv("input/colorCandidato.csv", sep="\t")
@@ -41,12 +41,13 @@ cand_2016 =  ['Keiko_Fujimori', 'Julio_Guzman',
 
 cand_2021 =  ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
-                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto",
+                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga",
                              "otros", "ninguno"]
 
 
 df_color2016 = df_color[df_color["candidato"].isin(cand_2016)]
 df_color2021 = df_color[df_color["candidato"].isin(cand_2021)]
+
 
 elecciones2016 = Elecciones(df_elecciones2016,
                             cand_2016,
@@ -81,6 +82,15 @@ st.sidebar.info(
 """
     )
 
+st.markdown("""
+<style>
+.big-font {
+    font-size:10px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 
 if app_mode == "Acerca de":
     l_about = get_about()
@@ -108,6 +118,7 @@ elif app_mode == "Elecciones presidenciales":
     col2.altair_chart(elecciones2021.prop_agg_alt_plot_all( domain = ("2020-12-01", "2021-04-15"),
                                                             checked_candaidates = checked_2021,
                                                             move_legend=True), use_container_width=True)
+    col2.markdown('<p class="big-font">Fuente: IEP, Ipsos, Datum y CPI</p>', unsafe_allow_html=True)
 
     st.markdown("## Primera vuelta elecciones 2016")
     col1b, col2b = st.beta_columns((1,4))
@@ -121,6 +132,7 @@ elif app_mode == "Elecciones presidenciales":
 
     col2b.altair_chart(elecciones2016.prop_agg_alt_plot_all( domain = ("2015-12-01", "2016-04-15"),
                                                             checked_candaidates = checked_2016), use_container_width=True)
+    col2b.markdown('<p class="big-font">Fuente: Ipsos, GFK, Datum y CPI</p>', unsafe_allow_html=True)
 
     #st.altair_chart(a_2016, use_container_width=True)
 
