@@ -103,7 +103,10 @@ elif app_mode == "Elecciones presidenciales":
     #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
 
+    st.markdown("Actualizado 09-03-2021")
     st.markdown("## Primera vuelta elecciones 2021")
+
+
     col1, col2 = st.beta_columns((1,4))
 
     cand_2021_label = elecciones2021.get_sorted_color()["candidato_label"]
