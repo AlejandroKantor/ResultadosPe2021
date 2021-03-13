@@ -103,7 +103,7 @@ elif app_mode == "Elecciones presidenciales":
     #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
 
-    st.markdown("Actualizado 09-03-2021")
+    st.markdown("Actualizado 13-03-2021")
     st.markdown("## Primera vuelta elecciones 2021")
 
 
@@ -120,7 +120,7 @@ elif app_mode == "Elecciones presidenciales":
 
     col2.altair_chart(elecciones2021.prop_agg_alt_plot_all( domain = ("2020-12-01", "2021-04-15"),
                                                             checked_candaidates = checked_2021,
-                                                            move_legend=True), use_container_width=True)
+                                                            move_legend=False), use_container_width=True)
     col2.markdown('<p class="big-font">Fuente: IEP, Ipsos, Datum y CPI</p>', unsafe_allow_html=True)
 
     st.markdown("## Primera vuelta elecciones 2016")
