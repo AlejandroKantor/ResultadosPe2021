@@ -59,7 +59,7 @@ elecciones2016 = Elecciones(df_elecciones2016,
 elecciones2021 = Elecciones(df_elecciones2021,
                             cand_2021,
                             df_color2021,
-                            smooth_param=0.75,
+                            smooth_param=0.8,
                             election_date="2021-04-11")
 def get_about():
 
@@ -103,7 +103,7 @@ elif app_mode == "Elecciones presidenciales":
     #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
 
-    st.markdown("Actualizado 14-03-2021")
+    st.markdown("Actualizado 24-03-2021")
     st.markdown("## Primera vuelta elecciones 2021")
 
 
