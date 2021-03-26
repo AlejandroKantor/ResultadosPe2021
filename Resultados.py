@@ -103,7 +103,7 @@ elif app_mode == "Elecciones presidenciales":
     #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
 
-    st.markdown("Actualizado 24-03-2021")
+    st.markdown("Actualizado 26-03-2021")
     st.markdown("## Primera vuelta elecciones 2021")
 
 
