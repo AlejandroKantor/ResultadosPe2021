@@ -29,7 +29,8 @@ df_elecciones2021 = pd.read_csv("input/encuestasPrimeraVuelta2021.csv")
 
 df_elecciones2021 = prep_data_2016(df_elecciones2021, candidatos= ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
-                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga"])
+                            'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga",
+                            "Pedro_Castillo"])
 
 
 df_color = pd.read_csv("input/colorCandidato.csv", sep="\t")
@@ -42,6 +43,7 @@ cand_2016 =  ['Keiko_Fujimori', 'Julio_Guzman',
 cand_2021 =  ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
                             'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga",
+                            "Pedro_Castillo",
                              "otros", "ninguno"]
 
 
@@ -103,7 +105,7 @@ elif app_mode == "Elecciones presidenciales":
     #a_2021 = elecciones2021.prop_agg_alt_plot( domain = ("2020-12-01", "2021-04-15"),
 
 
-    st.markdown("Actualizado 28-03-2021")
+    st.markdown("Actualizado 01-04-2021")
     st.markdown("## Primera vuelta elecciones 2021")
 
 
