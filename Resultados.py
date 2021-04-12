@@ -30,8 +30,8 @@ df_elecciones2021 = pd.read_csv("input/encuestasPrimeraVuelta2021.csv")
 df_elecciones2021 = prep_data_2016(df_elecciones2021, candidatos= ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
                             'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga",
-                            "Pedro_Castillo"])
-
+                            "Pedro_Castillo", "Cesar_Acuna"])
+df_elecciones2021 = df_elecciones2021[df_elecciones2021["Fecha_inicio"]>"2021-01-01"]
 
 df_color = pd.read_csv("input/colorCandidato.csv", sep="\t")
 
@@ -43,7 +43,7 @@ cand_2016 =  ['Keiko_Fujimori', 'Julio_Guzman',
 cand_2021 =  ['Keiko_Fujimori', 'Julio_Guzman',
                                'George_Forsyth', 'Yonhy_Lescano',
                             'Daniel_Urresti', 'Veronika_Mendoza', "Hernando_de_Soto", "Rafael_Lopez_Aliaga",
-                            "Pedro_Castillo",
+                            "Pedro_Castillo", "Cesar_Acuna",
                              "otros", "ninguno"]
 
 
@@ -117,13 +117,19 @@ elif app_mode == "Elecciones presidenciales":
         count = 0
         for cand in cand_2021_label:
             count += 1
-            checked_2021.append(st.checkbox(cand, count<8, cand+"2021"))
+            checked_2021.append(st.checkbox(cand, count<9, cand+"2021"))
     checked_2021 = cand_2021_label[checked_2021]
 
-    col2.altair_chart(elecciones2021.prop_agg_alt_plot_all( domain = ("2020-12-01", "2021-04-15"),
+    col2.altair_chart(elecciones2021.prop_agg_alt_plot_all( domain = ("2021-01-01", "2021-04-15"),
                                                             checked_candaidates = checked_2021,
-                                                            move_legend=False), use_container_width=True)
-    col2.markdown('<p class="big-font">Fuente: IEP, Ipsos, Datum y CPI</p>', unsafe_allow_html=True)
+                                                            move_legend=False,
+                                                            vertical_line="2021-04-03"), use_container_width=True)
+    col2.markdown("""<p class="big-font">
+    Fuente: IEP, Ipsos, Datum y CPI.  <br>Elaboración: Alejandro Kantor. <br>
+    Nota1: los datos a la derecha de la línea vertical son de 
+    encuesta sin publicación en medios de comunicación del Perú. <br> 
+    De acuerdo con la RESOLUCIÓN No 0309-2020-JNE, han sido incorporadas luego de cerrar la votación.<br>
+    Nota2: línea promedio calculada con regresión local LOWESS. </p>""", unsafe_allow_html=True)
 
     st.markdown("## Primera vuelta elecciones 2016")
     col1b, col2b = st.beta_columns((1,4))

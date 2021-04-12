@@ -116,7 +116,8 @@ class Elecciones:
 
 
     def prop_agg_alt_plot_all(self, domain=None, checked_candaidates=None,
-                              move_legend=False):
+                              move_legend=False,
+                              vertical_line=None):
         df_color = self.get_sorted_color()
 
         source = self.df_consolidated[['Candidato/a','expected','fecha', 'prop']]
@@ -158,6 +159,26 @@ class Elecciones:
         ).add_selection(selection)
         candidate_label = alt.Chart(source).encode(x='fecha:T')
         plot = lines + points + polsters + rule
+        if vertical_line is not None:
+            df_date = pd.DataFrame(dict(verical_date=[pd.to_datetime(vertical_line)],
+                                        y=[0],
+                                        text=["""Nota1"""]))
+            vertline = alt.Chart(df_date).mark_rule(color="#737373").encode(
+                x= "verical_date"
+            )
+            annotation = alt.Chart(df_date).mark_text(
+                align='left',
+                baseline='middle',
+                fontSize=10,
+                dx=7,
+                dy=-7,
+                lineBreak='\n'
+            ).encode(
+                x='verical_date',
+                y='y',
+                text='text'
+            )
+            plot = plot + vertline + annotation
         if move_legend:
             plot = plot.configure_legend(
                 #strokeColor='gray',
